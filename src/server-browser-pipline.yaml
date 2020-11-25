@@ -32,7 +32,7 @@ stages:
       displayName: 'Install Dependencies'
       workingDirectory: $(workingDirectory)
 
-    - script: pytest $(workingDirectory)/tests --doctest-modules --junitxml=junit/test-results.xml
+    - script: pytest $(workingDirectory)/tests/unit --doctest-modules --junitxml=junit/test-results.xml
       displayName: Run Tests
       workingDirectory: $(workingDirectory)
 

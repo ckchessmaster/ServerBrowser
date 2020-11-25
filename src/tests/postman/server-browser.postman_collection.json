@@ -1,0 +1,46 @@
+{
+	"info": {
+		"_postman_id": "0ee2c231-e7d0-4f57-ad5a-b3df169e9a89",
+		"name": "server-browser",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a658437e-540e-4dc2-aa10-a345d9bc4010",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Body contains health: true\", function () {\r",
+							"    let jsonData = pm.response.json()\r",
+							"    pm.expect(jsonData.healthy).to.eql(true)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/Health",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"Health"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
