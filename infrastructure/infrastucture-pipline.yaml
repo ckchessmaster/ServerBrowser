@@ -40,5 +40,5 @@ stages:
         location: $(location)
         templateLocation: 'Linked artifact'
         deploymentMode: Incremental
-        csmFile: '$(Build.SourcesDirectory)/Infrastructure/ARM/serverBrowserFunctionApp.json'
-        csmParametersFile: '$(Build.SourcesDirectory)/Infrastructure/ARM/serverBrowserFunctionApp.parameters.json'
+        csmFile: '$(Build.SourcesDirectory)/infrastructure/ARM/serverBrowserFunctionApp.json'
+        csmParametersFile: '$(Build.SourcesDirectory)/infrastructure/ARM/serverBrowserFunctionApp.parameters.json'
