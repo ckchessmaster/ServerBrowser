@@ -1,0 +1,44 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - Infrastructure/*
+
+variables:
+  resourceGroup: uan-rg-rts
+  location: eastus
+  subscription: 0cd1b4a4-98c0-48dd-900e-532a1f9a345c
+  vmImageName: 'ubuntu-latest'
+
+pool:
+    vmImage: $(vmImageName)
+
+stages:
+- stage: Deploy
+  jobs:
+  - job: DeployInfra
+    displayName: Deploy Server Browser Infrastructure
+    steps:
+    
+    - task: AzureCLI@2
+      displayName: Create Resource Group
+      inputs:
+        azureSubscription: azure-default
+        scriptType: pscore
+        scriptLocation: inlineScript
+        inlineScript: az group create --location $(location) --name $(resourceGroup) --subscription $(subscription)
+
+    - task: AzureResourceGroupDeployment@2
+      displayName: Create Server Browser Infrastructure
+      inputs:
+        azureSubscription: azure-default
+        resourceGroupName: $(resourceGroup)
+        action: 'Create Or Update Resource Group'
+        location: $(location)
+        templateLocation: 'Linked artifact'
+        deploymentMode: Incremental
+        csmFile: '$(Build.SourcesDirectory)/Infrastructure/ARM/serverBrowserFunctionApp.json'
+        csmParametersFile: '$(Build.SourcesDirectory)/Infrastructure/ARM/serverBrowserFunctionApp.parameters.json'

@@ -1,0 +1,20 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+
+variables:
+  vmImageName: 'ubuntu-latest'
+
+pool:
+  vmImage: $(vmImageName)
+
+jobs:
+- job: update_mirror
+  displayName: Update Github Mirror
+  steps:
+  - script: 'git checkout master && git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" pull'
+    displayName: Checkout and Update Master
+  - script: git push --mirror https://$(GITHUB_PAT)@github.com/ckchessmaster/ServerBrowser.git
+    displayName: Update Github Mirror
