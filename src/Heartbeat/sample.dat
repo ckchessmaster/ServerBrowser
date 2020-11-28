@@ -1,0 +1,7 @@
+{
+    "ip": "192.168.1.1",
+    "port": "1337",
+    "region": "eastus",
+    "status": "ready",
+    "server_id": "ca27cea6-77ab-4d23-b217-54a5979191e4" // Optional
+}

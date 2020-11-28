@@ -1,6 +1,7 @@
 import logging, json
-
 import azure.functions as func
+
+from Util import http_utils
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a health request.')
@@ -12,8 +13,4 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
       'healthy': True
     }
 
-    return func.HttpResponse(
-      body=json.dumps(response),
-      status_code=200,
-      mimetype='application/json'
-    )
+    return http_utils.create_function_response(response, 200)

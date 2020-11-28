@@ -40,6 +40,47 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Hearthbeat",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "188f837a-6612-4001-9ccc-b76b10ee3ecf",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ip\": \"192.168.1.1\",\r\n    \"port\": \"1337\",\r\n    \"status\": \"ready\",\r\n    \"region\": \"eastus\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base-url}}/heartbeat?code={{host-key}}",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"heartbeat"
+					],
+					"query": [
+						{
+							"key": "code",
+							"value": "{{host-key}}"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}
