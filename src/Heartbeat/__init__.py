@@ -24,8 +24,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
       "status": body.get('status')
     }
 
+    table_name = 'servers'
     table_service = TableService(connection_string=os.environ['AzureWebJobsStorage'])
-    table_service.insert_or_replace_entity('servers', data)
+    table_service.create_table(table_name, fail_on_exist=False)
+    table_service.insert_or_replace_entity(table_name, data)
 
     return http_utils.create_function_response({ "messages": "Server heartbeat successful.", "server_id": row_key }, 200)
 
