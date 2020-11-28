@@ -5,7 +5,7 @@ from Util import http_utils
 from azure.cosmosdb.table.tableservice import TableService
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-  logging.info('Python HTTP trigger function processed a request.')
+  logging.info('Server heartbeat request recieved.')
 
   try:
     body = req.get_json()
