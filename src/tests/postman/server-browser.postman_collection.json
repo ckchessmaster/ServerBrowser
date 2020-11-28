@@ -139,6 +139,43 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "GetServer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "94181247-1203-479d-9d2c-fcc96983a2bf",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/GetServer?region=eastus",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"GetServer"
+					],
+					"query": [
+						{
+							"key": "region",
+							"value": "eastus"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}
