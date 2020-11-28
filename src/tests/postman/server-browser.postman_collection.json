@@ -42,7 +42,7 @@
 			"response": []
 		},
 		{
-			"name": "Hearthbeat",
+			"name": "Hearthbeat (Create)",
 			"event": [
 				{
 					"listen": "test",
@@ -51,6 +51,13 @@
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Response contains server_id\", function () {\r",
+							"    let jsonData = pm.response.json()\r",
+							"    pm.expect(jsonData.server_id).to.exist\r",
+							"\r",
+							"    pm.environment.set('new_server_id', jsonData.server_id)\r",
 							"})"
 						],
 						"type": "text/javascript"
@@ -63,6 +70,57 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"ip\": \"192.168.1.1\",\r\n    \"port\": \"1337\",\r\n    \"status\": \"ready\",\r\n    \"region\": \"eastus\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base-url}}/heartbeat?code={{host-key}}",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"heartbeat"
+					],
+					"query": [
+						{
+							"key": "code",
+							"value": "{{host-key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hearthbeat (Update)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "91c8627d-23a5-4fce-b3fb-6d5273d6623e",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Response contains server_id\", function () {\r",
+							"    let jsonData = pm.response.json()\r",
+							"    pm.expect(jsonData.server_id).to.eql(pm.environment.get('new_server_id'))\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ip\": \"192.168.1.1\",\r\n    \"port\": \"1337\",\r\n    \"status\": \"busy\",\r\n    \"region\": \"eastus\",\r\n    \"server_id\": \"{{new_server_id}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
 				},
 				"url": {
 					"raw": "{{base-url}}/heartbeat?code={{host-key}}",
