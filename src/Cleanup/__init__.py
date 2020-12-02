@@ -19,7 +19,7 @@ def main(mytimer: func.TimerRequest) -> None:
     seconds_since_last_heartbeat = current_time - last_heartbeat
 
     if seconds_since_last_heartbeat.total_seconds() >= int(os.environ['HeartbeatTimeoutSeconds']):
-      batch.delete_entity(server.region, server.row_key)
+      batch.delete_entity(server.partition_key, server.row_key)
 
   table_service.commit_batch(table_name, batch)
 
