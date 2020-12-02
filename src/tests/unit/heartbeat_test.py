@@ -23,23 +23,24 @@ class TestHeartbeat(unittest.TestCase):
       }).encode('utf8')
     )
 
-    expected_data = {
-      'PartitionKey': 'eastus',
-      'ip': '192.168.1.1',
-      'port': '1337',
-      'status': 'ready'
-    }
-
     # Act
     result = main(request)
-    
     server_id = json.loads(result.get_body()).get('server_id')
-    expected_data['RowKey'] = server_id
+    inserted_data = mock_table_service().insert_or_replace_entity.call_args.args[1]
 
     # Assert
-    mock_table_service().create_table.assert_called_with(table_name, fail_on_exist=False)
-    mock_table_service().insert_or_replace_entity.assert_called_with(table_name, expected_data)
     assert result.status_code == 200
+    assert server_id
+
+    mock_table_service().create_table.assert_called_with(table_name, fail_on_exist=False)
+    mock_table_service().insert_or_replace_entity.assert_called_with(table_name, mock.ANY)
+
+    assert inserted_data['PartitionKey'] == 'eastus'
+    assert inserted_data['ip'] == '192.168.1.1'
+    assert inserted_data['port'] == '1337'
+    assert inserted_data['status'] == 'ready'
+    assert inserted_data['lastHeartbeatTime']
+
 
   @mock.patch('Heartbeat.os')
   @mock.patch('Heartbeat.TableService')
@@ -60,23 +61,24 @@ class TestHeartbeat(unittest.TestCase):
       }).encode('utf8')
     )
 
-    expected_data = {
-      'PartitionKey': 'eastus',
-      'ip': '192.168.1.1',
-      'port': '1337',
-      'status': 'ready',
-      'RowKey': server_id
-    }
-
     # Act
     result = main(request)
     result_server_id = json.loads(result.get_body()).get('server_id')
+    inserted_data = mock_table_service().insert_or_replace_entity.call_args.args[1]
 
     # Assert
-    mock_table_service().create_table.assert_called_with(table_name, fail_on_exist=False)
-    mock_table_service().insert_or_replace_entity.assert_called_with(table_name, expected_data)
-    assert result_server_id == server_id
     assert result.status_code == 200
+    assert result_server_id == server_id
+
+    mock_table_service().create_table.assert_called_with(table_name, fail_on_exist=False)
+    mock_table_service().insert_or_replace_entity.assert_called_with(table_name, mock.ANY)
+    
+    assert inserted_data['RowKey'] == server_id
+    assert inserted_data['PartitionKey'] == 'eastus'
+    assert inserted_data['ip'] == '192.168.1.1'
+    assert inserted_data['port'] == '1337'
+    assert inserted_data['status'] == 'ready'
+    assert inserted_data['lastHeartbeatTime']
 
   @mock.patch('Heartbeat.os')
   @mock.patch('Heartbeat.TableService')

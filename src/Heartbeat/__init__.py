@@ -2,6 +2,7 @@ import logging, json, uuid, os
 import azure.functions as func
 
 from Util import http_utils
+from datetime import datetime, timezone
 from azure.cosmosdb.table.tableservice import TableService
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -21,7 +22,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
       'PartitionKey': body.get('region'),
       'ip': body.get('ip'),
       'port': body.get('port'),
-      'status': body.get('status')
+      'status': body.get('status'),
+      'lastHeartbeatTime': datetime.now(timezone.utc)
     }
 
     table_name = 'servers'

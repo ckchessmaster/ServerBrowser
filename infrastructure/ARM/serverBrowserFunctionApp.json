@@ -214,6 +214,10 @@
             {
               "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
               "value": "[concat('InstrumentationKey=', reference(resourceId('Microsoft.Insights/components', parameters('applicationInsights')), '2018-05-01-preview').InstrumentationKey, ';IngestionEndpoint=https://eastus-0.in.applicationinsights.azure.com/')]"
+            },
+            {
+              "name": "HeartbeatTimeoutSeconds",
+              "value": "360"
             }
           ]
         },
