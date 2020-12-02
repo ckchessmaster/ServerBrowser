@@ -3,11 +3,7 @@ import azure.functions as func
 
 from unittest import mock
 from GetServer import main
-
-class FakeServer:
-  def __init__(self, ip, port):
-    self.ip = ip
-    self.port = port
+from .fakes.fake_server import FakeServer
 
 class TestGetServer(unittest.TestCase):
 
