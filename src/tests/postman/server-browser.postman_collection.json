@@ -69,7 +69,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"ip\": \"192.168.1.1\",\r\n    \"port\": \"1337\",\r\n    \"status\": \"ready\",\r\n    \"region\": \"eastus\"\r\n}"
+					"raw": "{\r\n    \"ip\": \"127.0.0.1\",\r\n    \"port\": \"7777\",\r\n    \"status\": \"ready\",\r\n    \"region\": \"eastus\"\r\n}"
 				},
 				"url": {
 					"raw": "{{base-url}}/heartbeat?code={{host-key}}",
@@ -168,6 +168,37 @@
 						"GetServer"
 					],
 					"query": [
+						{
+							"key": "region",
+							"value": "eastus"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unregister",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/unregister?code={{host-key}}&server-id={{new_server_id}}&region=eastus",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"unregister"
+					],
+					"query": [
+						{
+							"key": "code",
+							"value": "{{host-key}}"
+						},
+						{
+							"key": "server-id",
+							"value": "{{new_server_id}}"
+						},
 						{
 							"key": "region",
 							"value": "eastus"
