@@ -5,7 +5,7 @@ trigger:
     - master
   paths:
     include:
-    - Infrastructure/*
+    - infrastructure/*
 
 variables:
   resourceGroup: uan-rg-rts
